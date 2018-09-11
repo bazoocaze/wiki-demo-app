@@ -5,7 +5,7 @@
 <title th:text="${pageTitle}">Insert title here</title>
 <th:block th:replace="master_template::master_head">
 </th:block>
-<script type="text/javascript" src="http://cdn.jsdelivr.net/thymol/latest/thymol.min.js"></script>
+<script th:remove="all" type="text/javascript" src="http://cdn.jsdelivr.net/thymol/latest/thymol.min.js"></script>
 </head>
 <body>
 	<div th:replace="master_template::content_header">content_header_placeholder</div>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${pageTitle}">Edit Wiki</title>
+<th:block th:replace="master_template::master_head">
+</th:block>
+<script th:remove="all" type="text/javascript" src="http://cdn.jsdelivr.net/thymol/latest/thymol.min.js"></script>
+</head>
+<body>
+	<div th:replace="master_template::content_header">content_header_placeholder</div>
+	<div class="content child-content">
+		<h1 th:text="'Edit: ' + ${title}">Edit Teste</h1>
+		<form action="wiki.html" method="get" th:method="post" th:action="@{/edit/{name}(name=${name})}">
+			<textarea rows="15" style="width: 100%" name="contents" th:text="${contents}">Contents</textarea>
+			<p>
+				<input type="submit" name="save" value="save" />
+				<input type="submit" name="cancel" value="cancel" />
+			</p>
+		</form>
+	</div>
+	<div th:replace="master_template::content_footer">content_footer_placeholder</div>
+</body>
+</html>
