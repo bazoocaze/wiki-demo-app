@@ -4,27 +4,27 @@ import java.util.*;
 
 import org.springframework.stereotype.Service;
 
-import br.com.jasf.wikidemoapp.model.WikiArticle;
+import br.com.jasf.wikidemoapp.model.WikiPage;
 
 @Service
 public class WikiServiceMapImpl implements WikiService {
 
-	Map<String, WikiArticle> mapName;
+	Map<String, WikiPage> mapTitle;
 
 	public WikiServiceMapImpl() {
-		mapName = new HashMap<>();
+		mapTitle = new HashMap<>();
 	}
 
 	@Override
-	public WikiArticle findByName(String name) {
-		if (name == null)
-			throw new IllegalArgumentException("O parâmetro 'name' não pode ser null");
-		if (name == "")
-			throw new IllegalArgumentException("O parâmetro 'name' não pode ser o string vazio");
+	public WikiPage findByTitle(String title) {
+		if (title == null)
+			throw new IllegalArgumentException("O parâmetro 'title' não pode ser null");
+		if (title == "")
+			throw new IllegalArgumentException("O parâmetro 'title' não pode ser o string vazio");
 
-		if (mapName.containsKey(name)) {
+		if (mapTitle.containsKey(title)) {
 			try {
-				return mapName.get(name).clone();
+				return mapTitle.get(title).clone();
 			} catch (CloneNotSupportedException ex) {
 				throw new RuntimeException(ex);
 			}
@@ -34,42 +34,58 @@ public class WikiServiceMapImpl implements WikiService {
 	}
 
 	@Override
-	public WikiArticle save(WikiArticle item) {
-		if (item == null)
-			throw new IllegalArgumentException("O parâmetro 'item' não pode ser null");
-		if (item.getName() == null)
-			throw new IllegalArgumentException("O parâmetro 'item.name' não pode ser null");
-		if (item.getName() == "")
-			throw new IllegalArgumentException("O parâmetro 'item.name' não pode ser o string vazio");
-		if (item.getTitle() == null)
-			throw new IllegalArgumentException("O parâmetro 'item.title' não pode ser null");
-		if (item.getTitle() == "")
-			throw new IllegalArgumentException("O parâmetro 'item.title' não pode ser o string vazio");
+	public WikiPage save(WikiPage wiki) {
+		if (wiki == null)
+			throw new IllegalArgumentException("O parâmetro 'wiki' não pode ser null");
+		if (wiki.getTitle() == null)
+			throw new IllegalArgumentException("O parâmetro 'wiki.title' não pode ser null");
+		if (wiki.getTitle() == "")
+			throw new IllegalArgumentException("O parâmetro 'wiki.title' não pode ser o string vazio");
 
 		try {
-			mapName.put(item.getName(), item.clone());
+			mapTitle.put(wiki.getTitle(), wiki.clone());
 		} catch (CloneNotSupportedException ex) {
 			throw new RuntimeException(ex);
 		}
 
-		return item;
+		return wiki;
 	}
 
 	@Override
-	public boolean delete(WikiArticle item) {
-		if (item == null)
-			throw new IllegalArgumentException("O parâmetro 'item' não pode ser null");
-		if (item.getName() == null)
-			throw new IllegalArgumentException("O parâmetro 'item.name' não pode ser null");
-		if (item.getName() == "")
-			throw new IllegalArgumentException("O parâmetro 'item.name' não pode ser o string vazio");
+	public boolean delete(WikiPage wiki) {
+		if (wiki == null)
+			throw new IllegalArgumentException("O parâmetro 'wiki' não pode ser null");
+		if (wiki.getTitle() == null)
+			throw new IllegalArgumentException("O parâmetro 'wiki.title' não pode ser null");
+		if (wiki.getTitle() == "")
+			throw new IllegalArgumentException("O parâmetro 'wiki.title' não pode ser o string vazio");
 
-		if (mapName.containsKey(item.getName())) {
-			mapName.remove(item.getName());
+		if (mapTitle.containsKey(wiki.getTitle())) {
+			mapTitle.remove(wiki.getTitle());
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public Set<WikiPage> search(String searchText) {
+		if (searchText == null)
+			throw new IllegalArgumentException("O parâmetro 'searchText' não pode ser null");
+		if (searchText == "")
+			throw new IllegalArgumentException("O parâmetro 'searchText' não pode ser o string vazio");
+
+		HashSet<WikiPage> ret = new HashSet<>();
+
+		for (WikiPage item : mapTitle.values()) {
+			if (item.getTitle().contains(searchText)) {
+				ret.add(item);
+			} else if (item.getContents().contains(searchText)) {
+				ret.add(item);
+			}
+		}
+
+		return ret;
 	}
 
 }

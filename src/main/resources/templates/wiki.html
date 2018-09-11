@@ -2,16 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
+<script src="https://code.jquery.com/jquery-2.1.4.min.js" th:if="false"></script>
+<script src="http://blackpeppersoftware.github.io/thymeleaf-fragment.js/thymeleaf-fragment.js" defer="defer" th:if="false"></script>
 <title th:text="${pageTitle}">Teste - Wiki</title>
 <th:block th:replace="master_template::master_head">
 </th:block>
-<script type="text/javascript" src="http://cdn.jsdelivr.net/thymol/latest/thymol.min.js"></script>
 </head>
 <body>
 	<div th:replace="master_template::content_header">content_header_placeholder</div>
 	<div class="content child-content">
-		<h1 th:text="${title}">Teste</h1>
-		<div th:text="${contents}">Contents</div>
+		<h1 th:text="${title}">Wiki Title</h1>
+		<hr />
+		<div th:utext="${htmlContents}">Wiki contents</div>
+		<hr />
+		<p>Page markup:</p>
+		<div th:text="${contents}">Markup contents</div>
+		<hr />
+		<p>Markup output:</p>
+		<div th:text="${htmlContents}">HTML contents</div>
+		<hr />
+		<p>
+			<a class="btn btn-primary btn-sm" href="edit_wiki.html" th:href="@{/edit/{name}(name=${name})}">edit this page</a>
+		</p>
 	</div>
 	<div th:replace="master_template::content_footer">content_footer_placeholder</div>
 </body>

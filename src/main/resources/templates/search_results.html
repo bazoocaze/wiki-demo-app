@@ -4,21 +4,25 @@
 <meta charset="UTF-8" />
 <script src="https://code.jquery.com/jquery-2.1.4.min.js" th:if="false"></script>
 <script src="http://blackpeppersoftware.github.io/thymeleaf-fragment.js/thymeleaf-fragment.js" defer="defer" th:if="false"></script>
-<title th:text="${pageTitle}">Edit Wiki</title>
+<title th:text="${pageTitle}">Search Results - Wiki Demo</title>
 <th:block th:replace="master_template::master_head">
 </th:block>
 </head>
 <body>
 	<div th:replace="master_template::content_header">content_header_placeholder</div>
 	<div class="content child-content">
-		<h1 th:text="${title}">Wiki Title</h1>
+		<h1>Search Results</h1>
 		<hr />
-		<form action="wiki.html" method="get" th:method="post" th:action="@{/edit/{name}(name=${name})}">
-			<textarea rows="15" class="form-control" name="contents" th:text="${contents}">Wiki contents</textarea>
-			<hr />
-			<input class="btn btn-primary" type="submit" name="save" value="save" /> <a class="btn btn-primary" href="wiki.html"
-				th:href="@{/wiki/{name}(name=${name})}">cancel</a>
-		</form>
+		<p>
+			Search results for: <span class="p-1 rounded bg-secondary text-white" th:text="${search}">search pattern</span>
+		</p>
+		<p>
+			Found: <span class="p-1 rounded bg-secondary text-white" th:text="${searchResults.size()}">2</span>
+		<ul>
+			<li th:each="result : ${searchResults}"><a href="wiki.html" th:href="@{/wiki/{name}(name=${result.title})}"
+				th:text="${result.title}">Page Found</a></li>
+			<li th:if="false"><a href="wiki.html">Other Page Found</a></li>
+		</ul>
 	</div>
 	<div th:replace="master_template::content_footer">content_footer_placeholder</div>
 </body>

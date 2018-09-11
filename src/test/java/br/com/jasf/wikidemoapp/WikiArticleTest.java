@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.jasf.wikidemoapp.model.WikiArticle;
+import br.com.jasf.wikidemoapp.model.WikiPage;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -20,17 +20,16 @@ public class WikiArticleTest {
 	public void testClone() throws CloneNotSupportedException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException {
 		
-		WikiArticle src = new WikiArticle();
-		WikiArticle dst;
+		WikiPage src = new WikiPage();
+		WikiPage dst;
 
 		src.setId(10);
-		src.setName("alfa");
 		src.setTitle("bravo");
 		src.setContents("charlie");
 
 		dst = src.clone();
 
-		Class<WikiArticle> class1 = WikiArticle.class;
+		Class<WikiPage> class1 = WikiPage.class;
 		Method[] methodList = class1.getMethods();
 
 		for (Method method : methodList) {

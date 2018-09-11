@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import br.com.jasf.wikidemoapp.data.WikiService;
-import br.com.jasf.wikidemoapp.model.WikiArticle;
+import br.com.jasf.wikidemoapp.model.WikiPage;
 
 @Component
 public class DevBootstrap implements CommandLineRunner {
@@ -17,16 +17,14 @@ public class DevBootstrap implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		WikiArticle wiki = new WikiArticle();
+		WikiPage wiki = new WikiPage();
 		
-		wiki.setName("index");
-		wiki.setTitle("index");
-		wiki.setContents("Conteúdo de index");
+		wiki.setTitle("Welcome");
+		wiki.setContents("Conteúdo de Welcome");
 		wikiService.save(wiki);
 		
-		wiki.setName("teste");
-		wiki.setTitle("teste");
-		wiki.setContents("Conteúdo de teste");
+		wiki.setTitle("Teste");
+		wiki.setContents("Conteúdo de Teste");
 		wikiService.save(wiki);
 	}
 	

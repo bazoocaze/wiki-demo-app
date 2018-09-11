@@ -1,7 +1,10 @@
 package br.com.jasf.wikidemoapp;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
+import java.util.Set;
 
 import org.assertj.core.api.Assertions;
 import org.junit.*;
@@ -12,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.jasf.wikidemoapp.data.WikiServiceMapImpl;
-import br.com.jasf.wikidemoapp.model.WikiArticle;
+import br.com.jasf.wikidemoapp.model.WikiPage;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,69 +26,55 @@ public class WikiServiceMapImplTest {
 	public WikiServiceMapImpl service;
 
 	@Test
-	public void testFindByName_ValidateInput() {
+	public void testFindByTitle_ValidateInput() {
 
 		// garante que recusa name=null
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			service.findByName(null);
+			service.findByTitle(null);
 		});
 
 		// garante que recusa name=""
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			service.findByName("");
+			service.findByTitle("");
 		});
 
 	}
 
 	@Test
-	public void testFindByName_ValidateOperation() {
+	public void testFindByTitle_ValidateOperation() {
 
 		// garante que retorna null caso não encontre o artigo
-		Assert.assertNull(service.findByName("12345"));
+		Assert.assertNull(service.findByTitle("12345"));
 
-		WikiArticle wiki = new WikiArticle();
+		WikiPage wiki = new WikiPage();
 		wiki.setId(1);
-		wiki.setName("Teste");
 		wiki.setTitle("Teste");
 		wiki.setContents("teste");
 
 		// salva alguns artigos de teste
 		service.save(wiki);
 
-		wiki.setName("Novo");
 		wiki.setTitle("Novo");
 		service.save(wiki);
 
-		wiki.setName("Outro");
 		wiki.setTitle("Outro");
 		service.save(wiki);
 
 		// garante que retorna não-null caso encontre o artigo
-		Assert.assertNotNull(service.findByName("Teste"));
-		Assert.assertNotNull(service.findByName("Novo"));
-		Assert.assertNotNull(service.findByName("Outro"));
+		Assert.assertNotNull(service.findByTitle("Teste"));
+		Assert.assertNotNull(service.findByTitle("Novo"));
+		Assert.assertNotNull(service.findByTitle("Outro"));
 	}
 
 	@Test
 	public void testSave_ValidateInput() {
-		WikiArticle wiki = new WikiArticle();
+		WikiPage wiki = new WikiPage();
 		wiki.setId(1);
-		wiki.setName("New_Article");
 		wiki.setTitle("New_Article");
 		wiki.setContents("teste");
 
 		// garante que retorne null caso input=null
 		assertThatIllegalArgumentException().isThrownBy(() -> service.save(null));
-
-		// garante que recuse item.name=null
-		wiki.setName(null);
-		assertThatIllegalArgumentException().isThrownBy(() -> service.save(wiki));
-
-		// garante que recuse item.name=""
-		wiki.setName("");
-		assertThatIllegalArgumentException().isThrownBy(() -> service.save(wiki));
-
-		wiki.setName("New_Article");
 
 		// garante que recuse item.title=null
 		wiki.setTitle(null);
@@ -99,18 +88,17 @@ public class WikiServiceMapImplTest {
 	@Test
 	public void testSave_ValidateOperation() {
 
-		WikiArticle wiki = new WikiArticle();
+		WikiPage wiki = new WikiPage();
 		wiki.setId(1);
-		wiki.setName("New_Article");
 		wiki.setTitle("New_Article");
 		wiki.setContents("teste");
 
 		// garante que não retorna null
-		WikiArticle ret = service.save(wiki);
+		WikiPage ret = service.save(wiki);
 		Assert.assertNotNull(ret);
 
 		// garante que o name é o mesmo
-		Assert.assertEquals(service.save(wiki).getName(), wiki.getName());
+		Assert.assertEquals(service.save(wiki).getTitle(), wiki.getTitle());
 
 		// garante que o contents é o mesmo
 		Assert.assertEquals(service.save(wiki).getContents(), wiki.getContents());
@@ -118,28 +106,24 @@ public class WikiServiceMapImplTest {
 		// garante que sobreescreve o artigo sem gerar erro
 		service.save(wiki);
 
-		ret = service.findByName(wiki.getName());
+		ret = service.findByTitle(wiki.getTitle());
 		Assert.assertNotNull(ret);
 
-		assertEquals(ret.getName(), wiki.getName());
 		assertEquals(ret.getTitle(), wiki.getTitle());
 		assertEquals(ret.getContents(), wiki.getContents());
 
-		wiki.setName("Primeiro_Teste");
 		wiki.setTitle("Primeiro Teste");
 		service.save(wiki);
 
-		wiki.setName("Segundo_Teste");
-		wiki.setTitle("Segundo_Teste");
+		wiki.setTitle("Segundo Teste");
 		service.save(wiki);
 
-		wiki.setName("Terceiro_Teste");
-		wiki.setTitle("Terceiro_Teste");
+		wiki.setTitle("Terceiro Teste");
 		service.save(wiki);
 
-		assertEquals(service.findByName("Primeiro_Teste").getName(), "Primeiro_Teste");
-		assertEquals(service.findByName("Segundo_Teste").getName(), "Segundo_Teste");
-		assertEquals(service.findByName("Terceiro_Teste").getName(), "Terceiro_Teste");
+		assertEquals("Primeiro Teste", service.findByTitle("Primeiro Teste").getTitle());
+		assertEquals("Segundo Teste", service.findByTitle("Segundo Teste").getTitle());
+		assertEquals("Terceiro Teste", service.findByTitle("Terceiro Teste").getTitle());
 	}
 
 	@Test
@@ -147,38 +131,62 @@ public class WikiServiceMapImplTest {
 		// garante que recusa null
 		Assertions.assertThatIllegalArgumentException().isThrownBy(() -> service.delete(null));
 
-		WikiArticle wikiArticle = new WikiArticle();
+		WikiPage wikiPage = new WikiPage();
 
 		// garante que recusa item.name=null
-		wikiArticle.setName(null);
+		wikiPage.setTitle(null);
 		Assertions.assertThatIllegalArgumentException().isThrownBy(() -> service.delete(null));
 
 		// garante que recusa item.name=""
-		wikiArticle.setName("");
+		wikiPage.setTitle("");
 		Assertions.assertThatIllegalArgumentException().isThrownBy(() -> service.delete(null));
 	}
 
 	@Test
 	public void testDelete_ValidateOperation() {
-		WikiArticle wikiArticle = new WikiArticle();
-		wikiArticle.setName("Artigo_de_Teste");
-		wikiArticle.setTitle("Artigo de Teste");
-		wikiArticle.setContents("Conteúdo do artigo de teste");
+		WikiPage wikiPage = new WikiPage();
+		wikiPage.setTitle("Artigo de Teste");
+		wikiPage.setContents("Conteúdo do artigo de teste");
 
 		// exclui o artigo (caso exista) para o próximo teste
-		service.delete(wikiArticle);
+		service.delete(wikiPage);
 
 		// garante que retorna false quando não encontrar o artigo para exclusão
-		assertFalse(service.delete(wikiArticle));
+		assertFalse(service.delete(wikiPage));
 
 		// adiciona o artigo
-		service.save(wikiArticle);
+		service.save(wikiPage);
 
 		// garante que retorna true quando encontrar o artigo para exclusão
-		assertTrue(service.delete(wikiArticle));
+		assertTrue(service.delete(wikiPage));
 
 		// garante que retorna false (o artigo foi mesmo excluído)
-		assertFalse(service.delete(wikiArticle));
+		assertFalse(service.delete(wikiPage));
+	}
+
+	@Test
+	public void testSearch_ValidateInput() {
+		// garante que recusa search=null
+		assertThatIllegalArgumentException().isThrownBy(() -> service.search(null));
+
+		// garante que recusa search=""
+		assertThatIllegalArgumentException().isThrownBy(() -> service.search(""));
+
+		Set<WikiPage> ret = service.search("teste-not-found");
+
+		// garante que busca não encontrada não retorne null
+		assertNotNull(ret);
+
+		// garante que busca não encontrada retorne set vazio
+		assertEquals(ret.size(), 0);
+
+		service.save(new WikiPage("Teste", "Artigo de teste"));
+		service.save(new WikiPage("Novo", "Artigo de novo"));
+
+		// garante que algumas buscam encontram a quantidade correta de wikis
+		assertEquals(1, service.search("teste").size());
+		assertEquals(2, service.search("Artigo").size());
+		assertEquals(0, service.search("ausente").size());
 	}
 
 }

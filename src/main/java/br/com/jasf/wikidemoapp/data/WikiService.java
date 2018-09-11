@@ -1,13 +1,17 @@
 package br.com.jasf.wikidemoapp.data;
 
-import br.com.jasf.wikidemoapp.model.WikiArticle;
+import java.util.Set;
+
+import br.com.jasf.wikidemoapp.model.WikiPage;
 
 public interface WikiService {
 
-	WikiArticle findByName(String name);
+	WikiPage findByTitle(String name);
 	
-	WikiArticle save(WikiArticle item);
+	WikiPage save(WikiPage wiki);
 	
-	boolean delete(WikiArticle item);
+	boolean delete(WikiPage wiki);
+	
+	Set<WikiPage> search(String text);
 	
 }

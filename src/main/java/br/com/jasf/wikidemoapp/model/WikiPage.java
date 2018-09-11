@@ -1,11 +1,24 @@
 package br.com.jasf.wikidemoapp.model;
 
-public class WikiArticle {
+public class WikiPage {
 
 	private int id;
 	private String title;
-	private String name;
 	private String contents;
+
+	public WikiPage() {
+	}
+
+	public WikiPage(String title, String contents) {
+		this.title = title;
+		this.contents = contents;
+	}
+
+	public WikiPage(int id, String title, String contents) {
+		this.id = id;
+		this.title = title;
+		this.contents = contents;
+	}
 
 	public int getId() {
 		return id;
@@ -23,14 +36,6 @@ public class WikiArticle {
 		this.title = title;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getContents() {
 		return contents;
 	}
@@ -39,10 +44,9 @@ public class WikiArticle {
 		this.contents = contents;
 	}
 
-	public WikiArticle clone() throws CloneNotSupportedException {
-		WikiArticle ret = new WikiArticle();
+	public WikiPage clone() throws CloneNotSupportedException {
+		WikiPage ret = new WikiPage();
 		ret.setId(this.getId());
-		ret.setName(this.getName());
 		ret.setTitle(this.getTitle());
 		ret.setContents(this.getContents());
 		return ret;

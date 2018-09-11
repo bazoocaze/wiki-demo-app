@@ -2,10 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
+<script src="https://code.jquery.com/jquery-2.1.4.min.js" th:if="false"></script>
+<script src="http://blackpeppersoftware.github.io/thymeleaf-fragment.js/thymeleaf-fragment.js" defer="defer" th:if="false"></script>
 <title th:text="${pageTitle}">Insert title here</title>
 <th:block th:replace="master_template::master_head">
 </th:block>
-<script th:remove="all" type="text/javascript" src="http://cdn.jsdelivr.net/thymol/latest/thymol.min.js"></script>
 </head>
 <body>
 	<div th:replace="master_template::content_header">content_header_placeholder</div>

@@ -5,31 +5,40 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.jasf.wikidemoapp.data.WikiService;
-import br.com.jasf.wikidemoapp.model.WikiArticle;
+import br.com.jasf.wikidemoapp.model.WikiPage;
+import br.com.jasf.wikidemoapp.services.MarkupService;
 
 @Controller
 public class WikiController {
-	
+
 	WikiService wikiService;
-	
-	public WikiController(WikiService wikiService) {
+	MarkupService markupService;
+
+	public WikiController(WikiService wikiService, MarkupService markupService) {
 		this.wikiService = wikiService;
+		this.markupService = markupService;
 	}
 
-	@GetMapping(path = "/wiki/{name}")
-	public String getWiki(@PathVariable(name="name") String name, Model model)
-	{
-		model.addAttribute("name", name);
-		WikiArticle wikiArticle = wikiService.findByName(name);
-		if(wikiArticle == null) {
+	@GetMapping(path = "/wiki")
+	public String wikiIndex(Model model) {
+		return ViewNames.RedirectToWelcome;
+	}
+
+	@GetMapping(path = "/wiki/{title}")
+	public String getWiki(@PathVariable(name = "title") String title, Model model) {
+
+		model.addAttribute("title", title);
+
+		WikiPage wikiPage = wikiService.findByTitle(title);
+		if (wikiPage == null) {
 			return ViewNames.WikiNotFound;
 		}
-		
-		model.addAttribute("pageTitle", wikiArticle.getTitle() + " - Wiki");
-		model.addAttribute("title", wikiArticle.getTitle());
-		model.addAttribute("contents", wikiArticle.getContents());
-		
+
+		model.addAttribute("pageTitle", wikiPage.getTitle() + " - Wiki Demo");
+		model.addAttribute("contents", wikiPage.getContents());
+		model.addAttribute("htmlContents", markupService.convertToHTML(wikiPage.getContents()));
+
 		return ViewNames.Wiki;
 	}
-	
+
 }
