@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.site-footer {
+	background-color: #F7F7F7;
+	border-top: 0.05rem solid #E7E7E7;
+	padding: 2.5rem 0;
+	text-align: center;	
+}
+
+.child-content {
+	padding: 1rem;
+}

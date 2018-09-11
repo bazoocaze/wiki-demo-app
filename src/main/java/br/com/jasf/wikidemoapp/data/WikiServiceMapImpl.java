@@ -2,8 +2,11 @@ package br.com.jasf.wikidemoapp.data;
 
 import java.util.*;
 
+import org.springframework.stereotype.Service;
+
 import br.com.jasf.wikidemoapp.model.WikiArticle;
 
+@Service
 public class WikiServiceMapImpl implements WikiService {
 
 	Map<String, WikiArticle> mapName;

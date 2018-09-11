@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Wiki Not Found</title>
+<th:block th:replace="master_template::master_head">
+</th:block>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/thymol/latest/thymol.min.js"></script>
+</head>
+<body>
+	<div th:replace="master_template::content_header">content_header_placeholder</div>
+	<div class="content child-content">
+		<h1>Wiki Not Found</h1>
+		<blockquote class="blockquote">
+			<p class="mb-0">This is not the wiki you are looking for.</p>
+			<footer class="blockquote-footer">Ben Wiki Master</footer>
+		</blockquote>
+		<p>
+			You can try create the article <a href="/edit/teste" th:href="@{/edit/{name}(name=${name})}">here</a>.
+		</p>
+	</div>
+	<div th:replace="master_template::content_footer">content_footer_placeholder</div>
+</body>
+</html>

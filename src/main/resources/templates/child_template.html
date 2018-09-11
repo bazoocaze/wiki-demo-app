@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${pageTitle}">Insert title here</title>
+<th:block th:replace="master_template::master_head">
+</th:block>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/thymol/latest/thymol.min.js"></script>
+</head>
+<body>
+	<div th:replace="master_template::content_header">content_header_placeholder</div>
+	<div class="content child-content">(child content)</div>
+	<div th:replace="master_template::content_footer">content_footer_placeholder</div>
+</body>
+</html>

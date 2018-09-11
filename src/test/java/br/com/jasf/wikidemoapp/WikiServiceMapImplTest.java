@@ -1,4 +1,4 @@
-package br.com.jasf.wikidemoapp.data;
+package br.com.jasf.wikidemoapp;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.*;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.jasf.wikidemoapp.data.WikiServiceMapImpl;
 import br.com.jasf.wikidemoapp.model.WikiArticle;
 
 @RunWith(SpringRunner.class)

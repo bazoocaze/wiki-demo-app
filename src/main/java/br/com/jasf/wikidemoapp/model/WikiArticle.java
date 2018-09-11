@@ -41,6 +41,7 @@ public class WikiArticle {
 
 	public WikiArticle clone() throws CloneNotSupportedException {
 		WikiArticle ret = new WikiArticle();
+		ret.setId(this.getId());
 		ret.setName(this.getName());
 		ret.setTitle(this.getTitle());
 		ret.setContents(this.getContents());
