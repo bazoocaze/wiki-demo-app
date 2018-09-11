@@ -19,7 +19,7 @@
 		<p>
 			Found: <span class="p-1 rounded bg-secondary text-white" th:text="${searchResults.size()}">2</span>
 		<ul>
-			<li th:each="result : ${searchResults}"><a href="wiki.html" th:href="@{/wiki/{name}(name=${result.title})}"
+			<li th:each="result : ${searchResults}"><a href="wiki.html" th:href="@{/wiki/{title}(title=${result.title})}"
 				th:text="${result.title}">Page Found</a></li>
 			<li th:if="false"><a href="wiki.html">Other Page Found</a></li>
 		</ul>

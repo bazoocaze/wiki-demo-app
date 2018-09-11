@@ -22,7 +22,7 @@
 		<div th:text="${htmlContents}">HTML contents</div>
 		<hr />
 		<p>
-			<a class="btn btn-primary btn-sm" href="edit_wiki.html" th:href="@{/edit/{name}(name=${name})}">edit this page</a>
+			<a class="btn btn-primary btn-sm" href="edit_wiki.html" th:href="@{/edit/{title}(title=${title})}">edit this page</a>
 		</p>
 	</div>
 	<div th:replace="master_template::content_footer">content_footer_placeholder</div>

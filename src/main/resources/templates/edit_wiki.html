@@ -13,11 +13,11 @@
 	<div class="content child-content">
 		<h1 th:text="${title}">Wiki Title</h1>
 		<hr />
-		<form action="wiki.html" method="get" th:method="post" th:action="@{/edit/{name}(name=${name})}">
+		<form action="wiki.html" method="get" th:method="post" th:action="@{/edit/{title}(title=${title})}">
 			<textarea rows="15" class="form-control" name="contents" th:text="${contents}">Wiki contents</textarea>
 			<hr />
 			<input class="btn btn-primary" type="submit" name="save" value="save" /> <a class="btn btn-primary" href="wiki.html"
-				th:href="@{/wiki/{name}(name=${name})}">cancel</a>
+				th:href="@{/wiki/{title}(title=${title})}">cancel</a>
 		</form>
 	</div>
 	<div th:replace="master_template::content_footer">content_footer_placeholder</div>
